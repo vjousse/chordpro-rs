@@ -194,6 +194,10 @@ impl Song {
             Rule::artist => {
                 self.artist = pair.into_inner().peek().unwrap().as_str().to_owned();
             }
+
+            Rule::composer => {
+                self.composer = pair.into_inner().peek().unwrap().as_str().to_owned();
+            }
             Rule::capo => {
                 let capo_str = pair.into_inner().peek().unwrap().as_str();
                 if let Ok(capo) = u8::from_str(capo_str) {
@@ -323,8 +327,11 @@ mod tests {
     fn test_song_parse() {
         parse_test!( Song {
             r#"
+            {ns}
             {title: Wish You Were Here}
             {artist: Pink Floyd}
+            {composer: Pink Floyd}
+            {define: F base-fret 1 frets x x 3 2 1 1} 
 
             {soc}
             [C]How I wish, how I wish you were [D]here
@@ -333,6 +340,7 @@ mod tests {
             => Song{
                 title: "Wish You Were Here".to_string(),
                 artist: "Pink Floyd".to_string(),
+                composer: "Pink Floyd".to_string(),
                 capo: 0,
                 song: vec![Section::Chorus(Paragraph(vec![
                     Line(vec![

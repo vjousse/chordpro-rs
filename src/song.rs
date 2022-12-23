@@ -45,6 +45,7 @@ pub enum Section {
 pub struct Song {
     pub title: String,
     pub artist: String,
+    pub composer: String,
     pub capo: u8,
     pub song: Vec<Section>,
 }
